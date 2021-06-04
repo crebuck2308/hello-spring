@@ -2,10 +2,7 @@ package org.launchcode.hellospring.controllers;
 
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 //annotate with @Controller and import the above statement (org.springframework.stereotype)
@@ -32,10 +29,13 @@ public class HelloController {
     }
 
     //Handles requests of the form /hello?name=LaunchCode
-    @GetMapping("hello")
+//    @GetMapping("hello")
+    @RequestMapping (method = {RequestMethod.GET, RequestMethod.POST}, value = "hello")
+    //instead of specifying get/post Mapping - use this
     @ResponseBody
     //will only return plain text
     public String helloWithQueryParam(@RequestParam String name) {
+
         //@RequestParam tells Spring to expect a queryparameter called name
         // - must match up with the name in the URL and match it up with the method parameter
 
@@ -56,5 +56,35 @@ public class HelloController {
         //to hello/{name} which the variable can be any value
 
         return "Hello, " + name + "!!";
+    }
+
+    //Create a form in order for user to type in their name to greet them
+//    @GetMapping("form")
+//    @ResponseBody
+//    public String helloForm() {
+//        return "<html>" +
+//                "<body>" +
+//                "<form method = 'get' action = '/hello'>" + //tells to submit request to /hello
+//                //already have a handler method that can create requests with a query parameter called name
+//                //"helloWithQueryParam
+//                "<input type = 'text' name = 'name'>" +
+//                "<input type = 'submit' value = 'Greet Me!' />" +
+//                "</form>" +
+//                "</body>" +
+//                "</html>";
+//    }
+
+    //Post Request in form
+    @GetMapping("form")
+    @ResponseBody
+    public String helloForm() {
+        return "<html>" +
+                "<body>" +
+                "<form action = '/hello' method = 'post' >" +
+                "<input type = 'text' name = 'name'>" +
+                "<input type = 'submit' value = 'Greet Me!' />" +
+                "</form>" +
+                "</body>" +
+                "</html>";
     }
 }
